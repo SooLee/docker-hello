@@ -1,0 +1,10 @@
+sudo: required
+language: c
+services:
+  - docker
+ 
+install:
+  - docker build -t hello .
+
+script:
+  - docker run hello
