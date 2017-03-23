@@ -7,12 +7,19 @@ install:
   - docker build -t hello .
 
 script:
-  - docker run hello
-  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - if [ "$TRAVIS_BRANCH" != "master" ]; then
-      docker tag hello duplexa/hello-test:$TRAVIS_BRANCH;
-      docker push duplexa/hello-test:$TRAVIS_BRANCH;
-    fi
+  - source test.sh
 
 after_success:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+      if [ -a $TRAVIS_PULL_REQUEST ]; then
+        docker tag hello duplexa/hello-test:$TRAVIS_PULL_REQUEST_BRANCH;
+        docker push duplexa/hello-test:$TRAVIS_PULL_REQUEST_BRANCH;
+      else 
+        docker tag hello duplexa/hello-test:latest;
+        docker push duplexa/hello-test:latest;
+      fi
+    fi
   - echo 'good'
+  - date
+  
