@@ -7,5 +7,5 @@ MAINTAINER Soo Lee (duplexa@gmail.com)
 # RUN apt-get update -y && apt-get install -y wget 
 
 # default command
-CMD ["echo", "'hello'"]
+CMD ["echo", "'hello!'"]
 
