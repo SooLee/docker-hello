@@ -2,9 +2,13 @@ sudo: required
 language: c
 services:
   - docker
- 
+
+env:
+  - LOCAL_NAME=hello 
+  - REMOTE_NAME=duplexa/hello-test
+
 install:
-  - docker build -t hello .
+  - docker build -t $LOCAL_NAME .
 
 script:
   - source test.sh
@@ -13,11 +17,11 @@ after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
       if [ -a $TRAVIS_PULL_REQUEST ]; then
-        docker tag hello duplexa/hello-test:$TRAVIS_PULL_REQUEST_BRANCH;
-        docker push duplexa/hello-test:$TRAVIS_PULL_REQUEST_BRANCH;
+        docker tag $LOCAL_NAME $REMOTE_NAME:$TRAVIS_PULL_REQUEST_BRANCH;
+        docker push $REMOTE_NAME:$TRAVIS_PULL_REQUEST_BRANCH;
       else 
-        docker tag hello duplexa/hello-test:latest;
-        docker push duplexa/hello-test:latest;
+        docker tag $LOCAL_NAME $REMOTE_NAME:latest;
+        docker push $REMOTE_NAME:latest;
       fi
     fi
   - echo 'good'
