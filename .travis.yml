@@ -8,10 +8,10 @@ install:
 
 script:
   - docker run hello
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then
-    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    docker tag hello duplexa/hello-test;
-    docker push duplexa/hello-test;
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - if [ "$TRAVIS_BRANCH" != "master" ]; then
+      docker tag hello duplexa/hello-test:$TRAVIS_BRANCH;
+      docker push duplexa/hello-test:$TRAVIS_BRANCH;
     fi
 
 after_success:
