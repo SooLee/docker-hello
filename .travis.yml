@@ -4,8 +4,7 @@ services:
   - docker
 
 env:
-  - LOCAL_NAME=hello 
-  - REMOTE_NAME=duplexa/hello-test
+  - LOCAL_NAME=hello REMOTE_NAME=duplexa/hello-test
 
 install:
   - docker build -t $LOCAL_NAME .
