@@ -16,3 +16,5 @@ after_success:
       docker push duplexa/hello-test:$TRAVIS_PULL_REQUEST_BRANCH;
     fi
   - echo 'good'
+  - date
+  
