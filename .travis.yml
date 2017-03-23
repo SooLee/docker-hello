@@ -11,9 +11,14 @@ script:
 
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - if [ "$TRAVIS_BRANCH" == "master" -a $TRAVIS_PULL_REQUEST ]; then
-      docker tag hello duplexa/hello-test:$TRAVIS_PULL_REQUEST_BRANCH;
-      docker push duplexa/hello-test:$TRAVIS_PULL_REQUEST_BRANCH;
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+      if [ -a $TRAVIS_PULL_REQUEST ]; then
+        docker tag hello duplexa/hello-test:$TRAVIS_PULL_REQUEST_BRANCH;
+        docker push duplexa/hello-test:$TRAVIS_PULL_REQUEST_BRANCH;
+      else 
+        docker tag hello duplexa/hello-test:latest;
+        docker push duplexa/hello-test:latest;
+      fi
     fi
   - echo 'good'
   - date
