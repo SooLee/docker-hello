@@ -8,11 +8,11 @@ install:
 
 script:
   - source test.sh
-
-after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - if [ "$TRAVIS_BRANCH" != "master" ]; then
-      docker tag hello duplexa/hello-test:$TRAVIS_BRANCH;
-      docker push duplexa/hello-test:$TRAVIS_BRANCH;
+  - if [ "$TRAVIS_BRANCH" == "master" -a $TRAVIS_PULL_REQUEST ]; then
+      docker tag hello duplexa/hello-test:$TRAVIS_PULL_REQUEST_BRANCH;
+      docker push duplexa/hello-test:$TRAVIS_PULL_REQUEST_BRANCH;
     fi
 
+after_success:
+  - echo 'good'
